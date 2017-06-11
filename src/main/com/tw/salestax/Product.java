@@ -1,14 +1,15 @@
 package com.tw.salestax;
 
-import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 
 public class Product {
 
-    private final int quantity;
-    private final String productDescription;
-    private final double price;
+    private int quantity;
+    private String productDescription;
+    private double price;
+
+    private ProductCategorizer productCategorizer = new ProductCategorizer();
 
     Product(int quantity, String productDescription, double price) {
         this.quantity = quantity;
@@ -20,14 +21,7 @@ public class Product {
 
     public void addProduct(Product productPurchased) {
         products.add(productPurchased);
-    }
-
-    public void categorizeAllProducts() {
-        ProductCategorizer productCategorizer = new ProductCategorizer();
-        Iterator<Product> productsIterator = products.iterator();
-        while (productsIterator.hasNext() ) {
-            productCategorizer.categorizeAllProducts(productsIterator.next());
-        }
+        productCategorizer.categorizeProduct(productPurchased);
     }
 
     public double getPrice() {
