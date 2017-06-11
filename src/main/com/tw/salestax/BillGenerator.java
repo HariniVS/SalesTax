@@ -16,6 +16,7 @@ public class BillGenerator {
             if (taxValue instanceof SalesTax) {
                 salesTax += taxAppliedPrice - product.getPrice();
             }
+            System.out.println(product.getQuantity()+" "+product.getProductDescription()+"- "+product.getPrice());
         }
         billAmount = Math.ceil(billAmount * 100.0) / 100.0;
         salesTax = Math.ceil(salesTax * 100.0) / 100.0;
@@ -28,5 +29,4 @@ public class BillGenerator {
     public double getSalesTaxAmount() {
         return salesTax;
     }
-
 }

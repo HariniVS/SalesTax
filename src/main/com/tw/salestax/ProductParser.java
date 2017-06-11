@@ -21,6 +21,8 @@ public class ProductParser {
         String[] productDetails = product.split(" ");
         price = Double.parseDouble(productDetails[productDetails.length - 1]);
         quantity = Integer.parseInt(productDetails[0]);
+        product = product.replaceAll("[0-9.]","");
+        productDetail = product.replaceAll(" at","");
         addNewProduct();
     }
 

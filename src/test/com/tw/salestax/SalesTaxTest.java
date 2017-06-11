@@ -26,6 +26,7 @@ public class SalesTaxTest {
     public void shouldReturnQuantityAndPrice() {
         ProductParser productParser = new ProductParser(shoppingBasketOne);
         Product[] product = productParser.getAllProductsInBasket();
+        assertEquals(1, product[0].getQuantity());
         assertEquals(12.49, product[0].getPrice(), 0);
     }
 
