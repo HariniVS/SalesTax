@@ -1,13 +1,16 @@
 package com.tw.salestax;
 
 public class ProductParser {
-    private int quantity;
     private String[] products;
-    private String productDetail;
+    private int quantity;
     private double price;
+    private String productDetail;
+    private Product[] productPurchased;
+    private int productCount = 0 ;
 
     ProductParser(String[] products) {
         this.products = products;
+        productPurchased = new Product[products.length];
         for (String product : products) {
             parseProduct(product);
         }
@@ -18,19 +21,16 @@ public class ProductParser {
         String[] productDetails = product.split(" ");
         price = Double.parseDouble(productDetails[productDetails.length - 1]);
         quantity = Integer.parseInt(productDetails[0]);
-        Products productPurchased = new Products(quantity,productDetail,price);
-        productPurchased.addProduct(productPurchased);
+        addNewProduct();
     }
 
-    public int getQuantity() {
-        return quantity;
+    private void addNewProduct() {
+        productPurchased[productCount] = new Product(quantity, productDetail, price);
+        productPurchased[productCount].addProduct(productPurchased[productCount]);
+        productCount++;
     }
 
-    public double getPrice() {
-        return price;
-    }
-
-    public String getProduct() {
-        return productDetail;
+    public Product[] getAllProductsInBasket() {
+        return productPurchased;
     }
 }
