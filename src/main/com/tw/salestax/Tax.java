@@ -5,5 +5,5 @@ package com.tw.salestax;
  */
 public interface Tax {
 
-    public double applyTax();
+    public double getTaxPercentageFactor();
 }

@@ -5,7 +5,7 @@ public class ImportationTax implements Tax {
     double importationTax = 0.05;
 
     @Override
-    public double applyTax() {
+    public double getTaxPercentageFactor() {
         return importationTax;
     }
 }

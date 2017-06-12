@@ -1,15 +1,13 @@
 package com.tw.salestax;
 
-import java.util.LinkedList;
-import java.util.List;
-
 public class Product {
 
     private int quantity;
     private String productDescription;
     private double price;
+    private double taxAppliedPrice;
 
-    private ProductCategorizer productCategorizer = new ProductCategorizer();
+    private Tax tax;
 
     Product(int quantity, String productDescription, double price) {
         this.quantity = quantity;
@@ -17,11 +15,11 @@ public class Product {
         this.price = price;
     }
 
-    List<Product> products = new LinkedList<>();
-
-    public void addProduct(Product productPurchased) {
-        products.add(productPurchased);
-        productCategorizer.categorizeProduct(productPurchased);
+    @Override
+    public boolean equals(Object object) {
+        Product product = (Product) object;
+        return product.getQuantity() == quantity && product.getPrice() ==
+                price && product.getProductDescription().equals(productDescription);
     }
 
     public double getPrice() {
@@ -35,4 +33,23 @@ public class Product {
     public String getProductDescription() {
         return productDescription;
     }
+
+    public double getTaxAppliedPrice() {
+        return taxAppliedPrice;
+    }
+
+    public void findApplicableTax(Tax tax) {
+        this.tax = tax;
+        applyTax();
+    }
+
+    private void applyTax() {
+        taxAppliedPrice = quantity * (price + (tax.getTaxPercentageFactor() *
+                price));
+    }
+
+    public double getTax() {
+        return quantity * tax.getTaxPercentageFactor() * price;
+    }
+
 }

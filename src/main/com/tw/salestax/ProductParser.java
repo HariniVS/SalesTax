@@ -1,38 +1,44 @@
 package com.tw.salestax;
 
+import java.util.ArrayList;
+
 public class ProductParser {
+
+    private final String REGEX = "[0-9.]";
+    private final String AT = " at";
+    Product product;
+
     private String[] products;
+
     private int quantity;
     private double price;
     private String productDetail;
-    private Product[] productPurchased;
-    private int productCount = 0 ;
+    private ArrayList<Product> productsInBasket = new ArrayList<>();
 
-    ProductParser(String[] products) {
-        this.products = products;
-        productPurchased = new Product[products.length];
-        for (String product : products) {
-            parseProduct(product);
+    ProductParser(String[] inputProducts) {
+        this.products = inputProducts;
+        for (String inputProduct : inputProducts) {
+            productsInBasket.add(parseProduct(inputProduct));
         }
     }
 
-    public void parseProduct(String product) {
-        productDetail = product;
-        String[] productDetails = product.split(" ");
+    private Product parseProduct(String inputProduct) {
+        productDetail = inputProduct;
+        String[] productDetails = inputProduct.split(" ");
         price = Double.parseDouble(productDetails[productDetails.length - 1]);
-        quantity = Integer.parseInt(productDetails[0]);
-        product = product.replaceAll("[0-9.]","");
-        productDetail = product.replaceAll(" at","");
-        addNewProduct();
+        quantity = Integer.parseInt(productDetails[0].trim());
+        inputProduct = inputProduct.replaceAll(REGEX, "");
+        productDetail = inputProduct.replaceAll(AT, "");
+        productDetail = productDetail.trim();
+
+        product = new Product(quantity, productDetail, price);
+        product.findApplicableTax(new ProductCategorizer().categorizeProduct(product));
+
+        return product;
     }
 
-    private void addNewProduct() {
-        productPurchased[productCount] = new Product(quantity, productDetail, price);
-        productPurchased[productCount].addProduct(productPurchased[productCount]);
-        productCount++;
+    public ArrayList<Product> getAllProductsInBasket() {
+        return productsInBasket;
     }
 
-    public Product[] getAllProductsInBasket() {
-        return productPurchased;
-    }
 }
